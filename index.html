@@ -1,0 +1,941 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
+    <title>D'Plus Store - Premium Digital Payment</title>
+
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app-container">
+      <!-- === 1. BERANDA === -->
+      <div id="view-home" class="fade-in">
+        <div class="header-section">
+          <div class="orb orb-1"></div>
+          <div class="orb orb-2"></div>
+          <div class="top-bar">
+            <div class="brand">D'Plus<span>Store</span></div>
+            <div class="user-profile ripple" onclick="switchTab('profile')">
+              <div class="avatar"><i class="fas fa-user"></i></div>
+              <span
+                id="header-user-text"
+                style="font-size: 14px; font-weight: 800"
+                >Masuk Akun</span
+              >
+            </div>
+          </div>
+          <p
+            style="
+              font-size: 16px;
+              color: rgba(255, 255, 255, 0.9);
+              margin-bottom: 2px;
+              position: relative;
+              z-index: 2;
+              font-weight: 600;
+            "
+          >
+            Selamat Datang,
+          </p>
+          <h2
+            style="
+              font-size: 26px;
+              font-weight: 900;
+              position: relative;
+              z-index: 2;
+              letter-spacing: -0.5px;
+            "
+          >
+            Pelanggan D'Plus Store
+          </h2>
+          <div class="slogan">
+            <i class="fas fa-bolt" style="font-size: 16px"></i> TRANSAKSI
+            SECEPAT KILAT
+          </div>
+        </div>
+
+        <div class="balance-card ripple">
+          <div class="balance-info">
+            <p>
+              Total Saldo
+              <i
+                class="fas fa-eye eye-btn"
+                id="eye-icon"
+                onclick="toggleBalance(event)"
+              ></i>
+            </p>
+            <h3 id="display-balance">Rp0</h3>
+          </div>
+          <button class="btn-topup ripple" onclick="openTopUpModal()">
+            <i class="fas fa-plus-circle" style="font-size: 16px"></i> Top Up
+          </button>
+        </div>
+
+        <h3 class="section-title">Layanan Pilihan</h3>
+        <div class="services-grid">
+          <div class="service-item" onclick="showService(this, 'pulsa')">
+            <div class="service-icon bg-pulsa shadow-glow">
+              <i class="fas fa-mobile-alt"></i>
+            </div>
+            <span>Pulsa</span>
+          </div>
+          <div class="service-item" onclick="showService(this, 'data')">
+            <div class="service-icon bg-data"><i class="fas fa-wifi"></i></div>
+            <span>Data</span>
+          </div>
+          <div class="service-item" onclick="showService(this, 'pln')">
+            <div class="service-icon bg-pln"><i class="fas fa-bolt"></i></div>
+            <span>PLN</span>
+          </div>
+          <div class="service-item" onclick="showService(this, 'game')">
+            <div class="service-icon bg-game">
+              <i class="fas fa-gamepad"></i>
+            </div>
+            <span>Game</span>
+          </div>
+          <div class="service-item" onclick="showService(this, 'ewallet')">
+            <div class="service-icon bg-wallet">
+              <i class="fas fa-wallet"></i>
+            </div>
+            <span>E-Wallet</span>
+          </div>
+          <div class="service-item" onclick="showService(this, 'bank')">
+            <div class="service-icon bg-bank">
+              <i class="fas fa-university"></i>
+            </div>
+            <span>Transfer</span>
+          </div>
+          <div class="service-item" onclick="showService(this, 'etoll')">
+            <div class="service-icon bg-toll"><i class="fas fa-car"></i></div>
+            <span>E-Toll</span>
+          </div>
+          <div class="service-item" onclick="showService(this, 'tagihan')">
+            <div class="service-icon bg-bill">
+              <i class="fas fa-file-invoice-dollar"></i>
+            </div>
+            <span>Tagihan</span>
+          </div>
+        </div>
+
+        <!-- FORM TRANSAKSI -->
+        <div class="form-container fade-in" id="form-transaction">
+          <h3
+            class="section-title"
+            id="form-title"
+            style="padding: 0; margin-bottom: 24px; font-size: 20px"
+          >
+            Pilih Layanan
+          </h3>
+
+          <div class="input-group" id="provider-group" style="display: none">
+            <label id="provider-label">Pilih Provider</label
+            ><select id="provider-select"></select>
+          </div>
+
+          <div id="game-selector-group" style="display: none">
+            <label
+              style="
+                font-size: 14px;
+                color: var(--text-dark);
+                margin-bottom: 12px;
+                font-weight: 800;
+                display: block;
+              "
+              >Pilih Game Favoritmu</label
+            >
+            <div class="game-grid">
+              <div
+                class="game-card ripple ripple-dark active"
+                onclick="selectGame('ml', this)"
+              >
+                <img
+                  src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='mlbg' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%230f172a' /%3E%3Cstop offset='100%25' stop-color='%231e3a8a' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='20' fill='url(%23mlbg)'/%3E%3Ctext x='50' y='58' font-family='Arial' font-size='38' font-weight='900' font-style='italic' fill='%23fbbf24' text-anchor='middle'%3EML%3C/text%3E%3Ctext x='50' y='80' font-family='Arial' font-size='14' font-weight='bold' fill='%23fff' text-anchor='middle'%3EBB%3C/text%3E%3C/svg%3E"
+                /><span>MLBB</span>
+              </div>
+              <div
+                class="game-card ripple ripple-dark"
+                onclick="selectGame('ff', this)"
+              >
+                <img
+                  src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='ffbg' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23b91c1c' /%3E%3Cstop offset='100%25' stop-color='%23ea580c' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='20' fill='url(%23ffbg)'/%3E%3Cpath d='M50 20 C60 40 80 50 60 80 C40 70 30 50 50 20 Z' fill='%23fef08a'/%3E%3Ctext x='50' y='65' font-family='Arial' font-size='28' font-weight='900' font-style='italic' fill='%23991b1b' text-anchor='middle'%3EFF%3C/text%3E%3C/svg%3E"
+                /><span>Free Fire</span>
+              </div>
+              <div
+                class="game-card ripple ripple-dark"
+                onclick="selectGame('pubg', this)"
+              >
+                <img
+                  src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='pubgbg' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%231f2937' /%3E%3Cstop offset='100%25' stop-color='%23000000' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='20' fill='url(%23pubgbg)'/%3E%3Ctext x='50' y='52' font-family='Impact' font-size='26' font-weight='bold' fill='%23facc15' text-anchor='middle' letter-spacing='1'%3EPUBG%3C/text%3E%3Ctext x='50' y='72' font-family='Arial' font-size='11' font-weight='bold' fill='%23fff' text-anchor='middle' letter-spacing='2'%3EMOBILE%3C/text%3E%3C/svg%3E"
+                /><span>PUBG M</span>
+              </div>
+              <div
+                class="game-card ripple ripple-dark"
+                onclick="selectGame('roblox', this)"
+              >
+                <img
+                  src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23e5e7eb'/%3E%3Cpolygon points='50,20 80,50 50,80 20,50' fill='%23111827' /%3E%3Cpolygon points='50,42 58,50 50,58 42,50' fill='%23e5e7eb' /%3E%3C/svg%3E"
+                /><span>Roblox</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label id="form-label">Nomor Tujuan</label>
+            <div class="input-wrapper">
+              <input
+                type="tel"
+                id="input-number"
+                placeholder="Ketik nomor di sini..."
+                oninput="checkOperator()"
+              />
+              <div id="operator-badge" class="operator-badge">Telkomsel</div>
+            </div>
+          </div>
+
+          <div class="sub-tabs" id="data-tabs" style="display: none">
+            <button
+              class="sub-tab ripple ripple-dark active"
+              id="tab-internet"
+              onclick="renderData('internet')"
+            >
+              Internet
+            </button>
+            <button
+              class="sub-tab ripple ripple-dark"
+              id="tab-telepon"
+              onclick="renderData('telepon')"
+            >
+              Telepon
+            </button>
+          </div>
+
+          <!-- FITUR BARU: INPUT NOMINAL MANUAL (KHUSUS TRANSFER) -->
+          <div
+            class="input-group"
+            id="manual-input-group"
+            style="display: none; margin-top: 10px"
+          >
+            <label>Nominal Transfer</label>
+            <input
+              type="text"
+              inputmode="numeric"
+              id="manual-nominal"
+              placeholder="Rp 0"
+              style="font-size: 22px; font-weight: 900; color: var(--primary)"
+              oninput="checkManualBalance(this)"
+            />
+            <p
+              id="saldo-warning"
+              style="
+                color: var(--danger);
+                font-size: 12px;
+                margin-top: 8px;
+                display: none;
+                font-weight: 800;
+              "
+            >
+              <i class="fas fa-exclamation-circle"></i> Saldo Anda tidak
+              mencukupi!
+            </p>
+          </div>
+
+          <div class="nominal-grid" id="product-container"></div>
+
+          <button
+            class="btn-primary ripple"
+            onclick="processToBukaOlshop()"
+            style="margin-top: 10px"
+          >
+            Lanjutkan Pembayaran
+            <i class="fas fa-arrow-right" style="margin-left: 8px"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- === 2. RIWAYAT TRANSAKSI === -->
+      <div
+        id="view-history"
+        class="history-container fade-in"
+        style="display: none; padding-bottom: 120px"
+      >
+        <h2
+          style="
+            margin-bottom: 24px;
+            font-size: 26px;
+            font-weight: 900;
+            color: var(--text-dark);
+            letter-spacing: -0.5px;
+          "
+        >
+          Riwayat Transaksi
+        </h2>
+        <div id="history-list">
+          <div style="text-align: center; padding: 60px 0">
+            <i
+              class="fas fa-receipt"
+              style="font-size: 56px; color: var(--border); margin-bottom: 20px"
+            ></i>
+            <p
+              style="
+                color: var(--text-muted);
+                font-size: 15px;
+                font-weight: 700;
+              "
+            >
+              Belum ada riwayat transaksi.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- === 3. PROFIL PENGGUNA DINAMIS === -->
+      <div
+        id="view-profile"
+        class="history-container fade-in"
+        style="display: none; padding-bottom: 120px"
+      >
+        <h2
+          style="
+            margin-bottom: 24px;
+            font-size: 26px;
+            font-weight: 900;
+            color: var(--text-dark);
+            letter-spacing: -0.5px;
+          "
+        >
+          Profil Akun
+        </h2>
+
+        <div
+          class="balance-card ripple"
+          style="
+            margin: 0 0 24px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 16px;
+            border: none;
+            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+            padding: 30px 20px;
+            animation: none;
+          "
+        >
+          <div
+            class="avatar"
+            style="
+              width: 90px;
+              height: 90px;
+              font-size: 40px;
+              background: linear-gradient(
+                135deg,
+                var(--primary-light),
+                var(--primary)
+              );
+              color: white;
+              box-shadow: 0 15px 30px rgba(37, 99, 235, 0.4);
+              border: 4px solid white;
+            "
+          >
+            <i class="fas fa-user"></i>
+          </div>
+          <div style="width: 100%">
+            <h3
+              id="profile-name"
+              style="
+                font-size: 26px;
+                font-weight: 900;
+                color: var(--text-dark);
+                letter-spacing: -0.5px;
+                margin-bottom: 20px;
+              "
+            >
+              Pengguna
+            </h3>
+            <div
+              style="
+                background: white;
+                padding: 20px;
+                border-radius: 24px;
+                border: 2px dashed rgba(37, 99, 235, 0.3);
+                text-align: left;
+                width: 100%;
+                position: relative;
+                overflow: hidden;
+                box-shadow: var(--shadow-card);
+              "
+            >
+              <div
+                style="
+                  position: absolute;
+                  top: 0;
+                  right: 0;
+                  background: var(--primary-light);
+                  color: white;
+                  font-size: 10px;
+                  padding: 6px 14px;
+                  border-bottom-left-radius: 18px;
+                  font-weight: 900;
+                  letter-spacing: 0.5px;
+                "
+              >
+                <i class="fas fa-check-circle"></i> VERIFIED
+              </div>
+              <p
+                style="
+                  font-size: 12px;
+                  color: var(--text-muted);
+                  font-weight: 800;
+                  margin-bottom: 14px;
+                  text-transform: uppercase;
+                  letter-spacing: 1px;
+                "
+              >
+                <i class="fas fa-id-card" style="margin-right: 6px"></i>
+                Identitas Pribadi
+              </p>
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  margin-bottom: 12px;
+                  border-bottom: 1px solid var(--bg-app);
+                  padding-bottom: 12px;
+                "
+              >
+                <span
+                  style="
+                    font-size: 14px;
+                    font-weight: 700;
+                    color: var(--text-muted);
+                  "
+                  >Nomor HP</span
+                >
+                <span
+                  id="profile-phone"
+                  style="
+                    font-size: 15px;
+                    font-weight: 900;
+                    color: var(--text-dark);
+                  "
+                  >081234567890</span
+                >
+              </div>
+              <div style="display: flex; justify-content: space-between">
+                <span
+                  style="
+                    font-size: 14px;
+                    font-weight: 700;
+                    color: var(--text-muted);
+                  "
+                  >Email Aktif</span
+                >
+                <span
+                  id="profile-email"
+                  style="
+                    font-size: 14px;
+                    font-weight: 900;
+                    color: var(--text-dark);
+                  "
+                  >user@email.com</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 14px">
+          <div
+            class="payment-method ripple ripple-dark"
+            onclick="openModal('modal-settings')"
+            style="margin: 0; border: none; box-shadow: var(--shadow-card)"
+          >
+            <div
+              style="
+                width: 50px;
+                height: 50px;
+                background: #e0e7ff;
+                border-radius: 16px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-right: 16px;
+              "
+            >
+              <i
+                class="fas fa-cog"
+                style="font-size: 22px; color: var(--primary-light)"
+              ></i>
+            </div>
+            <div style="flex: 1">
+              <h4
+                style="
+                  font-size: 16px;
+                  font-weight: 900;
+                  color: var(--text-dark);
+                "
+              >
+                Pengaturan Keamanan
+              </h4>
+            </div>
+            <i
+              class="fas fa-chevron-right"
+              style="color: var(--text-muted)"
+            ></i>
+          </div>
+          <div
+            class="payment-method ripple ripple-dark"
+            onclick="openModal('modal-help')"
+            style="margin: 0; border: none; box-shadow: var(--shadow-card)"
+          >
+            <div
+              style="
+                width: 50px;
+                height: 50px;
+                background: #dcfce7;
+                border-radius: 16px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-right: 16px;
+              "
+            >
+              <i
+                class="fas fa-headset"
+                style="font-size: 22px; color: #059669"
+              ></i>
+            </div>
+            <div style="flex: 1">
+              <h4
+                style="
+                  font-size: 16px;
+                  font-weight: 900;
+                  color: var(--text-dark);
+                "
+              >
+                Pusat Bantuan
+              </h4>
+            </div>
+            <i
+              class="fas fa-chevron-right"
+              style="color: var(--text-muted)"
+            ></i>
+          </div>
+          <div
+            class="payment-method ripple ripple-dark"
+            onclick="logoutUser()"
+            style="
+              margin: 0;
+              background: #fef2f2;
+              border: 2px solid #fecaca;
+              box-shadow: none;
+            "
+          >
+            <div
+              style="
+                width: 50px;
+                height: 50px;
+                background: #fee2e2;
+                border-radius: 16px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-right: 16px;
+              "
+            >
+              <i
+                class="fas fa-sign-out-alt"
+                style="font-size: 22px; color: #dc2626"
+              ></i>
+            </div>
+            <div style="flex: 1">
+              <h4 style="font-size: 16px; font-weight: 900; color: #dc2626">
+                Keluar Akun (Logout)
+              </h4>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- === BOTTOM NAV DOCKED === -->
+      <div class="bottom-nav">
+        <div
+          class="nav-item ripple ripple-dark active"
+          id="nav-home"
+          onclick="switchTab('home')"
+        >
+          <i class="fas fa-home"></i> Beranda
+        </div>
+        <div
+          class="nav-item ripple ripple-dark"
+          id="nav-history"
+          onclick="switchTab('history')"
+        >
+          <i class="fas fa-file-invoice"></i> Riwayat
+        </div>
+        <div
+          class="nav-item ripple ripple-dark"
+          id="nav-profile"
+          onclick="switchTab('profile')"
+        >
+          <i class="fas fa-user-circle"></i> Profil
+        </div>
+      </div>
+
+      <!-- === MODALS === -->
+      <!-- Modal Login & Register -->
+      <div class="modal-overlay" id="modal-login">
+        <div class="modal-content">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-bottom: 24px;
+            "
+          >
+            <h3 style="font-size: 26px; font-weight: 900">Akses Akun</h3>
+            <i
+              class="fas fa-times"
+              style="font-size: 26px; cursor: pointer; color: var(--text-muted)"
+              onclick="
+                closeModal('modal-login');
+                switchTab('home');
+              "
+            ></i>
+          </div>
+          <div class="sub-tabs" style="margin-bottom: 30px">
+            <button
+              class="sub-tab ripple active"
+              id="btn-tab-login"
+              onclick="toggleAuth('login')"
+            >
+              Masuk</button
+            ><button
+              class="sub-tab ripple"
+              id="btn-tab-register"
+              onclick="toggleAuth('register')"
+            >
+              Daftar Baru
+            </button>
+          </div>
+          <div id="form-login-area">
+            <div class="input-group">
+              <label>Nomor HP / Email</label
+              ><input type="tel" placeholder="Contoh: 0812xxx" />
+            </div>
+            <div class="input-group" style="margin-bottom: 28px">
+              <label>PIN Keamanan</label
+              ><input type="password" placeholder="••••••" />
+            </div>
+            <button
+              class="btn-primary ripple"
+              onclick="loginUser('Berhasil Masuk!')"
+            >
+              <i class="fas fa-unlock-alt" style="margin-right: 8px"></i> Masuk
+              Sekarang
+            </button>
+          </div>
+          <div id="form-register-area" style="display: none">
+            <div class="input-group">
+              <label>Nama Lengkap</label
+              ><input type="text" id="reg-name" placeholder="Sesuai KTP" />
+            </div>
+            <div class="input-group">
+              <label>Nomor HP Aktif</label
+              ><input type="tel" id="reg-phone" placeholder="08xxx" />
+            </div>
+            <div class="input-group">
+              <label>Email Aktif</label
+              ><input
+                type="email"
+                id="reg-email"
+                placeholder="email@contoh.com"
+              />
+            </div>
+            <div class="input-group" style="margin-bottom: 28px">
+              <label>Buat PIN Baru</label
+              ><input
+                type="password"
+                id="reg-pin"
+                placeholder="6 Digit Angka"
+                maxlength="6"
+              />
+            </div>
+            <button
+              class="btn-primary ripple"
+              style="
+                background: linear-gradient(135deg, var(--success), #059669);
+              "
+              onclick="registerUser()"
+            >
+              <i class="fas fa-user-plus" style="margin-right: 8px"></i> Daftar
+              & Masuk
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Top Up Saldo -->
+      <div class="modal-overlay" id="modal-topup">
+        <div class="modal-content">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-bottom: 24px;
+            "
+          >
+            <h3 style="font-size: 24px; font-weight: 900">Isi Saldo</h3>
+            <i
+              class="fas fa-times"
+              style="font-size: 26px; cursor: pointer; color: var(--text-muted)"
+              onclick="closeModal('modal-topup')"
+            ></i>
+          </div>
+          <div class="input-group" style="margin-bottom: 24px">
+            <label>Nominal Top Up</label>
+            <input
+              type="text"
+              inputmode="numeric"
+              id="input-topup"
+              placeholder="Minimal Rp 10.000"
+              style="font-size: 24px; font-weight: 900; letter-spacing: 1px"
+              oninput="formatRupiahInput(this)"
+            />
+          </div>
+          <label
+            style="
+              font-size: 14px;
+              font-weight: 800;
+              display: block;
+              margin-bottom: 12px;
+            "
+            >Pilihan Cepat</label
+          >
+          <div
+            class="nominal-grid"
+            style="
+              grid-template-columns: repeat(2, 1fr);
+              max-height: max-content;
+              overflow: hidden;
+              gap: 16px;
+            "
+          >
+            <div
+              class="nominal-card topup-card ripple ripple-dark"
+              onclick="selectTopUpNominal(this, '50.000')"
+            >
+              <h4 style="margin: 0; font-size: 16px">Rp 50.000</h4>
+            </div>
+            <div
+              class="nominal-card topup-card ripple ripple-dark"
+              onclick="selectTopUpNominal(this, '100.000')"
+            >
+              <h4 style="margin: 0; font-size: 16px">Rp 100.000</h4>
+            </div>
+            <div
+              class="nominal-card topup-card ripple ripple-dark"
+              onclick="selectTopUpNominal(this, '500.000')"
+            >
+              <h4 style="margin: 0; font-size: 16px">Rp 500.000</h4>
+            </div>
+            <div
+              class="nominal-card topup-card ripple ripple-dark"
+              onclick="selectTopUpNominal(this, '1.000.000')"
+            >
+              <h4 style="margin: 0; font-size: 16px">Rp 1.000.000</h4>
+            </div>
+          </div>
+          <button class="btn-primary ripple" onclick="generateVirtualAccount()">
+            <i class="fas fa-barcode" style="margin-right: 10px"></i> Buat Kode
+            Pembayaran
+          </button>
+        </div>
+      </div>
+
+      <!-- Modal Gateway Simulasi (Pembayaran Top Up) -->
+      <div class="modal-overlay" id="modal-gateway">
+        <div class="modal-content" style="text-align: center">
+          <div
+            style="
+              width: 70px;
+              height: 70px;
+              background: #e0e7ff;
+              border-radius: 50%;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              margin: 0 auto 20px auto;
+              box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2);
+            "
+          >
+            <i
+              class="fas fa-hourglass-half"
+              style="font-size: 28px; color: var(--primary-light)"
+            ></i>
+          </div>
+          <h3 style="font-size: 22px; font-weight: 900; margin-bottom: 10px">
+            Menunggu Pembayaran
+          </h3>
+          <p
+            style="
+              font-size: 14px;
+              color: var(--text-muted);
+              margin-bottom: 24px;
+              font-weight: 700;
+            "
+          >
+            Segera transfer sebelum
+            <span style="color: var(--danger); font-weight: 900">23:59:59</span>
+          </p>
+
+          <div
+            style="
+              background: white;
+              padding: 24px;
+              border-radius: 24px;
+              border: 2px dashed var(--primary-light);
+              margin-bottom: 28px;
+              box-shadow: var(--shadow-card);
+              text-align: left;
+            "
+          >
+            <p
+              style="
+                font-size: 13px;
+                font-weight: 900;
+                color: var(--text-muted);
+                text-transform: uppercase;
+                letter-spacing: 1px;
+              "
+            >
+              <i class="fas fa-university" style="margin-right: 6px"></i>
+              Transfer Bank BCA
+            </p>
+            <h2
+              style="
+                font-size: 28px;
+                font-weight: 900;
+                color: var(--primary);
+                letter-spacing: 2px;
+                margin: 8px 0;
+              "
+            >
+              0293145692
+            </h2>
+            <p
+              style="
+                font-size: 14px;
+                color: var(--text-muted);
+                font-weight: 800;
+                margin-bottom: 16px;
+              "
+            >
+              A/N: DENI
+            </p>
+
+            <div
+              style="
+                border-top: 1px solid var(--border);
+                padding-top: 16px;
+                margin-bottom: 16px;
+              "
+            ></div>
+
+            <p
+              style="
+                font-size: 13px;
+                font-weight: 900;
+                color: var(--text-muted);
+                text-transform: uppercase;
+                letter-spacing: 1px;
+              "
+            >
+              <i
+                class="fas fa-wallet"
+                style="margin-right: 6px; color: #0ea5e9"
+              ></i>
+              E-Wallet DANA
+            </p>
+            <h2
+              style="
+                font-size: 26px;
+                font-weight: 900;
+                color: #0ea5e9;
+                letter-spacing: 1px;
+                margin: 8px 0;
+              "
+            >
+              +6282148748663
+            </h2>
+            <p
+              style="
+                font-size: 14px;
+                color: var(--text-muted);
+                font-weight: 800;
+              "
+            >
+              A/N: DENI
+            </p>
+
+            <div
+              style="
+                margin-top: 20px;
+                padding-top: 20px;
+                border-top: 1px dashed var(--border);
+                font-size: 26px;
+                font-weight: 900;
+                color: var(--text-dark);
+                text-align: center;
+              "
+              id="gateway-amount"
+            >
+              Rp 0
+            </div>
+          </div>
+
+          <button
+            class="btn-primary ripple"
+            style="
+              background: linear-gradient(135deg, var(--success), #059669);
+              box-shadow: 0 12px 25px rgba(16, 185, 129, 0.3);
+            "
+            onclick="successTopUp()"
+          >
+            <i class="fas fa-check-circle" style="margin-right: 8px"></i> Saya
+            Sudah Transfer
+          </button>
+          <button
+            class="btn-primary ripple"
+            style="
+              background: transparent;
+              color: var(--danger);
+              border: 2px solid var(--danger);
+              margin-top: 12px;
+              box-shadow: none;
+            "
+            onclick="closeModal('modal-gateway')"
+          >
+            Batalkan Transaksi
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Memuat File JS Terpisah -->
+    <script src="script.js"></script>
+  </body>
+</html>
